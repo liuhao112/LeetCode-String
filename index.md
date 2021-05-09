@@ -1,8 +1,41 @@
-## Welcome to GitHub Pages
+## 滑动窗口
 
-You can use the [editor on GitHub](https://github.com/liuhao112/LeetCode-String/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+滑动窗口本质上是一个队列，比如例题中的 abcabcbb，进入这个队列（窗口）为 abc 满足题目要求，当再进入 a，队列变成了 abca，这时候不满足要求。所以，我们要移动这个队列！
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+如何移动？我们只要把队列的左边的元素移出就行了，直到满足题目要求！一直维持这样的队列，找出队列出现最长的长度时候，求出解！
+
+### 时间复杂度：O(n)
+
+## 相关题目
+
+### 1.无重复字符的最长子串
+``` 无重复字符的最长子串
+- 依次将字符串插入set，并判断当前set中是否含有重复值，如果有重复值，将该重复值以及其之前的值出队
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        if(s.size() == 0) return 0;
+        unordered_set<char> lookup;    //选定一个结构作为滑动窗口的队列
+        int maxStr = 0;
+        int left = 0;
+        for(int i =0; i< s.length(); i++)
+        {
+            while(lookup.find(s[i]) != lookup.end())
+            {
+                lookup.earse(s[left]);
+                left++;
+            }
+            maxStr = max(maxStr, i - left + 1);
+            lookup.insert(s[i]);
+        }
+    }
+};
+```
+### 2.最长覆盖子串
+``` 最长覆盖子串
+
+```
 
 ### Markdown
 
