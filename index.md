@@ -72,6 +72,104 @@ public:
     }
 };
 ```
+### 30.串联所有单词的子串
+``` 串联所有单词的子串
+class Solution {
+public:
+    vector<int> findSubstring(string s, vector<string>& words) {
+        vector<int> res;
+        int n = s.size();
+
+        if(n<=0 || words.empty())
+        {
+            return res;
+        }
+
+        int wordSize = words[0].size();              //根据题意，word中单词的长度固定
+        int count = words.size();                    //word中字符串的数量
+
+        unordered_map<string, int> need;
+        for(auto &s:words)
+        {
+            ++need[s];                              //使用map纪录word中所有的字符串及个数
+        }
+
+        for (int i = 0; i < wordSize; ++i)
+        {
+            int left = i;
+            int right = i;
+            int cnt = 0;
+
+            unordered_map<string, int> currMap;
+
+            while(right + wordSize <= n)
+            {
+                string temp = s.substr(right, wordSize);
+                right+=wordSize;
+
+                if(need.find(temp) != need.end())
+                {
+                    ++currMap[temp];
+                    ++cnt;
+
+                    while(currMap[temp] > need[temp])
+                    {
+                        string ts = s.substr(left, wordSize);
+                        left += wordSize;
+                        --cnt;
+                        --currMap[ts];
+                    }
+
+                    if(cnt == count)
+                    {
+                        res.push_back(left);
+                    }
+                }
+                else
+                {
+                    left = right;
+                    cnt = 0;
+                    currMap.clear();
+                }
+            }
+        }
+
+        return res;
+    }
+};
+```
+### 209.长度最小的子数组
+``` 长度最小的子数组
+class Solution {
+public:
+    int minSubArrayLen(int target, vector<int>& nums) {
+        int size = nums.size();
+        if(size == 0)
+        {
+            return 0;
+        }
+
+        int maxStr = INT_MAX;
+        int result = 0;
+
+        int left = 0, right = 0, start = 0;
+
+        while(right < size)
+        {
+            result += nums[right];
+            right++;
+
+            while(result >= target)
+            {
+                maxStr = min(maxStr, right-left);
+                result -= nums[left];
+                left++;
+            }
+        }
+        return maxStr == INT_MAX? 0:maxStr;
+    }
+};
+```
 
 ### Markdown
 
