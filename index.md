@@ -4,6 +4,29 @@
 
 如何移动？我们只要把队列的左边的元素移出就行了，直到满足题目要求！一直维持这样的队列，找出队列出现最长的长度时候，求出解！
 
+``` 滑动窗口
+- 滑动窗口算法的框架
+void slidwindow(vector<int> nums)
+{
+    int left = 0, right = 0;
+    while(right < nums.size())
+    {
+        ...//扩大右边界并更新窗口状态
+        right++;
+        while(需要收缩)//窗口到达什么状态需要收缩
+        {
+            ...//缩小左边界并更新窗口状态
+            left++;
+        }
+    }
+}
+
+作者：bu-zhi-yin
+链接：https://leetcode-cn.com/problems/minimum-size-subarray-sum/solution/209chun-chun-de-hua-dong-chuang-kou-by-b-a92x/
+来源：力扣（LeetCode）
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+```
+
 ### 时间复杂度：O(n)
 
 ## 相关题目
