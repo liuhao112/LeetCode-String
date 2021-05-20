@@ -21,10 +21,28 @@ void slidwindow(vector<int> nums)
     }
 }
 
-作者：bu-zhi-yin
-链接：https://leetcode-cn.com/problems/minimum-size-subarray-sum/solution/209chun-chun-de-hua-dong-chuang-kou-by-b-a92x/
-来源：力扣（LeetCode）
-著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+int slidingWindow(vector<int> nums) {
+    int n = nums.size();
+    int ans = 0;
+    // 记录窗口内的元素及其个数，非必要
+    map<int, int> um;
+    // l：窗口左边界； r：窗口右边界
+    int l = 0, r = 0;
+    // r 指针负责探索新的区间，直到搜索到nums的某末尾
+    while (r < n) {
+        um[r]++;
+        // 如果区间不满足条件，l指针右移，窗口收缩
+        while(区间 [l, r] is Invalid) {
+            um[l]--;
+            l++;
+        }
+        // 此处处理结果, deal with(ans, 区间[l, r])
+        res = max(ans, r - l + 1); // 或者res = min(ans, r - l + 1);
+        // 右指针右移，继续搜索
+        r++;
+    }
+    return ans;
+}
 ```
 
 ### 时间复杂度：O(n)
@@ -192,6 +210,76 @@ public:
         return maxStr == INT_MAX? 0:maxStr;
     }
 };
+```
+
+### 面试题17.18.最短超串
+``` 最短超串
+假设你有两个数组，一个长一个短，短的元素均不相同。找到长数组中包含短数组所有的元素的最短子数组，其出现顺序无关紧要。
+
+返回最短子数组的左端点和右端点，如有多个满足条件的子数组，返回左端点最小的一个。若不存在，返回空数组。
+
+示例 1:
+
+输入:
+big = [7,5,9,0,2,1,3,5,7,9,1,1,5,8,8,9,7]
+small = [1,5,9]
+输出: [7,10]
+
+    vector<int> shortestSeq(vector<int>& big, vector<int>& small) {
+        int n = big.size();
+        vector<int> res;
+        unordered_map<int, int> need;
+        int minlen =n, diff = 0;
+        for(auto &e:small)
+        {
+            ++need[e];
+            diff++;
+        }
+
+        int l =0, r = 0;
+        for(; r<n; r++)
+        {
+            if(need.find(big[r]) != need.end() && --need[big[r]] >= 0) --diff;
+            while(diff == 0)
+            {
+                if(r-l < minlen)
+                {
+                    minlen = r-l;
+                    res={l, r};
+                }
+                if(need.find(big[l]) != need.end() && ++need[big[l]] > 0) ++diff;
+                ++l;
+            }
+        }
+
+        return res;
+    }
+
+```
+
+### 395.至少有k个重复字符的最长子串
+``` 至少有k个重复字符的最长子串
+- 采用分治+哈希的方法
+
+int longestSubstring(string s, int k) {
+    int n = s.size();
+    if (k < 2) return n;
+    if (n < k) return 0;
+    int m[26] = {0};
+    for (auto c : s) 
+        ++m[c-'a'];
+    int i = 0;
+    while (i < n && m[s[i]-'a'] >= k) 
+        ++i;
+    if (i == n) 
+        return n;
+    int left = longestSubstring(s.substr(0, i), k);
+    while (i < n && m[s[i]-'a'] < k) 
+        ++i;
+    int right = longestSubstring(s.substr(i), k);
+
+    return max(left, right);
+}
 ```
 
 ### Markdown
